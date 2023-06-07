@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <curses.h>
 #include <ncurses.h>
 #include "snake.h"
 
@@ -11,8 +12,8 @@ struct Snake create_snake(int size) {
     struct Unit* units = malloc(sizeof(struct Unit) * size);
     for (int i = 0; i < size; i++) {
         struct Unit unit;
-        unit.x = i;
-        unit.y = 0;
+        unit.x = i + 10;
+        unit.y = 5;
         units[i] = unit;
     }
     snake.units = units;
@@ -27,8 +28,8 @@ void print_snake(struct Snake snake) {
 }
 
 void del_snake(struct Snake snake) {
-    for (int i = snake.size - 1; i >= 0; i--) {
-        mvdelch(snake.units[i].y, snake.units[i].x);
+    for (int i = 0; i < snake.size; i++) {
+        mvaddch(snake.units[i].y, snake.units[i].x, ' ');
     }
 }
 
@@ -38,8 +39,8 @@ void move_up(struct Snake snake) {
     }
     
     struct Unit unit;
-    unit.x = snake.units[snake.size - 2].x;
-    unit.y = snake.units[snake.size - 2].y - 1;
+    unit.x = snake.units[snake.size - 1].x;
+    unit.y = snake.units[snake.size - 1].y - 1;
     snake.units[snake.size - 1] = unit;
 }
 
@@ -49,8 +50,8 @@ void move_down(struct Snake snake) {
     }
     
     struct Unit unit;
-    unit.x = snake.units[snake.size - 2].x;
-    unit.y = snake.units[snake.size - 2].y + 1;
+    unit.x = snake.units[snake.size - 1].x;
+    unit.y = snake.units[snake.size - 1].y + 1;
     snake.units[snake.size - 1] = unit;
 }
 
@@ -60,8 +61,8 @@ void move_left(struct Snake snake) {
     }
     
     struct Unit unit;
-    unit.x = snake.units[snake.size - 2].x - 1;
-    unit.y = snake.units[snake.size - 2].y;
+    unit.x = snake.units[snake.size - 1].x - 1;
+    unit.y = snake.units[snake.size - 1].y;
     snake.units[snake.size - 1] = unit;
 }
 
@@ -71,7 +72,7 @@ void move_right(struct Snake snake) {
     }
     
     struct Unit unit;
-    unit.x = snake.units[snake.size - 2].x + 1;
-    unit.y = snake.units[snake.size - 2].y;
+    unit.x = snake.units[snake.size - 1].x + 1;
+    unit.y = snake.units[snake.size - 1].y;
     snake.units[snake.size - 1] = unit;
 }
