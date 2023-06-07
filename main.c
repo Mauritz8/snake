@@ -25,6 +25,7 @@ int main(void) {
         if (ch != ERR) {
             input = ch;
         }
+
         del_snake(snake);
         switch (input) {
             case KEY_UP:
@@ -38,8 +39,6 @@ int main(void) {
                 break;
             case KEY_RIGHT:
                 move_right(snake);
-                break;
-            default:
                 break;
         }
         napms(100);
