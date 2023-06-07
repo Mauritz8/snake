@@ -51,30 +51,30 @@ void del_snake(struct snake snake) {
     }
 }
 
-void move_snake(struct snake snake, enum direction direction) {
-    for (int i = 0; i < snake.size - 1; i++) {
-        snake.units[i] = snake.units[i + 1];
+void move_snake(struct snake* snake, enum direction direction) {
+    for (int i = 0; i < snake->size - 1; i++) {
+        snake->units[i] = snake->units[i + 1];
     }
     
     struct unit unit;
     switch (direction) {
         case UP:
-            unit.x = snake.units[snake.size - 1].x;
-            unit.y = snake.units[snake.size - 1].y - 1;
+            unit.x = snake->units[snake->size - 1].x;
+            unit.y = snake->units[snake->size - 1].y - 1;
             break;
         case DOWN:
-            unit.x = snake.units[snake.size - 1].x;
-            unit.y = snake.units[snake.size - 1].y + 1;
+            unit.x = snake->units[snake->size - 1].x;
+            unit.y = snake->units[snake->size - 1].y + 1;
             break;
         case LEFT:
-            unit.x = snake.units[snake.size - 1].x - 1;
-            unit.y = snake.units[snake.size - 1].y;
+            unit.x = snake->units[snake->size - 1].x - 1;
+            unit.y = snake->units[snake->size - 1].y;
             break;
         case RIGHT:
-            unit.x = snake.units[snake.size - 1].x + 1;
-            unit.y = snake.units[snake.size - 1].y;
+            unit.x = snake->units[snake->size - 1].x + 1;
+            unit.y = snake->units[snake->size - 1].y;
             break;
     }
 
-    snake.units[snake.size - 1] = unit;
+    snake->units[snake->size - 1] = unit;
 }

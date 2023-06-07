@@ -40,7 +40,7 @@ int main(void) {
         del_snake(snake);
         if (direction != -1) {
             if (can_move(snake, direction)) {
-                move_snake(snake, direction);
+                move_snake(&snake, direction);
             } else {
                 run = false;
             }
