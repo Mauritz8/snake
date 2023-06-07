@@ -9,19 +9,24 @@ int main(void) {
     noecho();
     curs_set(FALSE);
     keypad(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
 
 
     int snake_size = 10;
     struct Snake snake = create_snake(snake_size);
 
+    int input;
     bool run = true;
     while (run) {
         print_snake(snake);
         refresh();
 
         int ch = getch();
+        if (ch != ERR) {
+            input = ch;
+        }
         del_snake(snake);
-        switch (ch) {
+        switch (input) {
             case KEY_UP:
                 move_up(snake);
                 break;
