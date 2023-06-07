@@ -13,38 +13,43 @@ int main(void) {
 
 
     int snake_size = 10;
-    struct Snake snake = create_snake(snake_size);
+    struct snake snake = create_snake(snake_size);
 
-    int input;
+    enum direction direction = -1;
     bool run = true;
     while (run) {
         print_snake(snake);
         refresh();
 
-        int ch = getch();
-        if (ch != ERR) {
-            input = ch;
+        int input = getch();
+        switch (input) {
+            case KEY_UP:
+                direction = UP;
+                break;
+            case KEY_DOWN:
+                direction = DOWN;
+                break;
+            case KEY_LEFT:
+                direction = LEFT;
+                break;
+            case KEY_RIGHT:
+                direction = RIGHT;
+                break;
         }
 
         del_snake(snake);
-        switch (input) {
-            case KEY_UP:
-                move_up(snake);
-                break;
-            case KEY_DOWN:
-                move_down(snake);
-                break;
-            case KEY_LEFT:
-                move_left(snake);
-                break;
-            case KEY_RIGHT:
-                move_right(snake);
-                break;
+        if (direction != -1) {
+            if (can_move(snake, direction)) {
+                move_snake(snake, direction);
+            } else {
+                run = false;
+            }
         }
         napms(100);
     }
 
     endwin();
+    printf("YOU LOST!!!\n");
 
     return 0;
 }

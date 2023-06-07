@@ -1,25 +1,22 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
-struct Unit {
+struct unit {
     int x;
     int y;
 };
 
-struct Snake {
-    struct Unit* units;
+struct snake {
+    struct unit* units;
     int size;
 };
 
-enum direction{up, down, left, right};
-bool can_move(enum direction dir);
+enum direction{UP, DOWN, LEFT, RIGHT};
+bool can_move(struct snake, enum direction);
 
-struct Snake create_snake(int size);
-void print_snake(struct Snake snake);
-void del_snake(struct Snake snake);
-void move_up(struct Snake snake);
-void move_down(struct Snake snake);
-void move_left(struct Snake snake);
-void move_right(struct Snake snake);
+struct snake create_snake(int size);
+void print_snake(struct snake);
+void del_snake(struct snake);
+void move_snake(struct snake, enum direction);
 
 #endif
