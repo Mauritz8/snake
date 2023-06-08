@@ -1,7 +1,10 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <curses.h>
 #include <ncurses.h>
+
 #include "snake.h"
+#include "coordinate.h"
 
 bool can_move(struct snake snake, enum direction direction) {
     switch (direction) {
@@ -27,9 +30,9 @@ bool can_move(struct snake snake, enum direction direction) {
 
 struct snake create_snake(int size) {
     struct snake snake;
-    struct unit* units = malloc(sizeof(struct unit) * size);
+    struct coord* units = malloc(sizeof(struct coord) * size);
     for (int i = 0; i < size; i++) {
-        struct unit unit;
+        struct coord unit;
         unit.x = COLS / 2;
         unit.y = i;
         units[i] = unit;
@@ -51,12 +54,8 @@ void del_snake(struct snake snake) {
     }
 }
 
-void move_snake(struct snake* snake, enum direction direction) {
-    for (int i = 0; i < snake->size - 1; i++) {
-        snake->units[i] = snake->units[i + 1];
-    }
-    
-    struct unit unit;
+struct coord new_unit(struct snake* snake, enum direction direction) {
+    struct coord unit;
     switch (direction) {
         case UP:
             unit.x = snake->units[snake->size - 1].x;
@@ -75,6 +74,25 @@ void move_snake(struct snake* snake, enum direction direction) {
             unit.y = snake->units[snake->size - 1].y;
             break;
     }
+    return unit;
+}
 
+void move_snake(struct snake* snake, enum direction direction) {
+    for (int i = 0; i < snake->size - 1; i++) {
+        snake->units[i] = snake->units[i + 1];
+    }
+    
+    struct coord unit = new_unit(snake, direction);
     snake->units[snake->size - 1] = unit;
+}
+
+void grow_snake(struct snake* snake, enum direction direction) {
+    snake->units = realloc(snake->units, sizeof(struct coord) * (snake->size + 1));
+    for (int i = snake->size; i > 0; i--) {
+        snake->units[i] = snake->units[i - 1];
+    }
+
+    struct coord unit = new_unit(snake, direction);
+    snake->units[0] = unit;
+    snake->size++;
 }

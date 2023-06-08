@@ -1,6 +1,9 @@
 #include <curses.h>
 #include <ncurses.h>
+
+#include "coordinate.h"
 #include "snake.h"
+#include "food.h"
 
 
 int main(void) {
@@ -12,8 +15,11 @@ int main(void) {
     nodelay(stdscr, TRUE);
 
 
-    int snake_size = 10;
+    int snake_size = 3;
     struct snake snake = create_snake(snake_size);
+
+    struct coord food_coords = get_random_coord();
+    place_food(food_coords);
 
     enum direction direction = DOWN;
     bool run = true;
@@ -40,14 +46,22 @@ int main(void) {
         del_snake(snake);
         if (can_move(snake, direction)) {
             move_snake(&snake, direction);
+            bool eating = snake.units[snake.size - 1].x == food_coords.x &&
+                snake.units[snake.size - 1].y == food_coords.y; 
+            if (eating) {
+                grow_snake(&snake, direction);
+                food_coords = get_random_coord();
+                place_food(food_coords);
+            }
         } else {
             run = false;
         }
-        napms(100);
+        napms(50);
     }
 
     endwin();
-    printf("YOU LOST!!!\n");
+    printf("YOU LOST\n");
+    printf("Score: %d\n", snake.size);
 
     return 0;
 }
