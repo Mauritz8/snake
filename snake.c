@@ -30,8 +30,8 @@ struct snake create_snake(int size) {
     struct unit* units = malloc(sizeof(struct unit) * size);
     for (int i = 0; i < size; i++) {
         struct unit unit;
-        unit.x = COLS / 2 + i;
-        unit.y = LINES / 2;
+        unit.x = COLS / 2;
+        unit.y = i;
         units[i] = unit;
     }
     snake.units = units;

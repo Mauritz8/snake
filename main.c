@@ -15,7 +15,7 @@ int main(void) {
     int snake_size = 10;
     struct snake snake = create_snake(snake_size);
 
-    enum direction direction = -1;
+    enum direction direction = DOWN;
     bool run = true;
     while (run) {
         print_snake(snake);
@@ -38,12 +38,10 @@ int main(void) {
         }
 
         del_snake(snake);
-        if (direction != -1) {
-            if (can_move(snake, direction)) {
-                move_snake(&snake, direction);
-            } else {
-                run = false;
-            }
+        if (can_move(snake, direction)) {
+            move_snake(&snake, direction);
+        } else {
+            run = false;
         }
         napms(100);
     }
