@@ -36,7 +36,7 @@ int main(void) {
         print_snake(snake);
         refresh();
 
-        if (is_game_over(snake.units[snake.size - 1])) {
+        if (is_game_over(&snake)) {
             napms(1500);
             break;
         }

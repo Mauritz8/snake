@@ -56,7 +56,7 @@ struct coord new_unit(struct snake* snake, enum direction direction) {
     return unit;
 }
 
-bool legal_coordinate(struct coord coordinate) {
+bool is_legal_coordinate(struct coord coordinate) {
     if (coordinate.x <= getbegx(board)) {
         return false;
     } else if (coordinate.x >= getbegx(board) + getmaxx(board) - 1) {
@@ -69,11 +69,26 @@ bool legal_coordinate(struct coord coordinate) {
     return true;
 }
 
-bool is_game_over(struct coord current_coordinate) {
-    if (!legal_coordinate(current_coordinate)) {
+bool has_snake_walked_into_itself(struct snake* snake) {
+    struct coord head = snake->units[snake->size - 1];
+    for (int i = 0; i < snake->size - 1; i++) {
+        struct coord unit = snake->units[i];
+        if (unit.x == head.x && unit.y == head.y) {
+            return true;
+        } 
+    }
+    return false;
+}
+
+bool is_game_over(struct snake* snake) {
+    struct coord head = snake->units[snake->size - 1];
+    if (!is_legal_coordinate(head)) {
         return true;
     }
-    // should also check if snake has walked into itself
+    if (has_snake_walked_into_itself(snake)) {
+        return true;
+    }
+
     return false;
 }
 
