@@ -4,6 +4,7 @@
 #include "coordinate.h"
 #include "snake.h"
 #include "food.h"
+#include "board.h"
 
 
 int main(void) {
@@ -14,18 +15,40 @@ int main(void) {
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
 
+    const int BOARD_HEIGHT = 20;
+    const int BOARD_WIDTH = 100;
+    const int BOARD_STARTY = 10;
+    const int BOARD_STARTX = 50;
+    board = newwin(BOARD_HEIGHT, BOARD_WIDTH, BOARD_STARTY, BOARD_STARTX);
+    box(board, 0, 0);
+    refresh();
+    wrefresh(board);
 
-    int snake_size = 3;
+
+    int snake_size = 1;
     struct snake snake = create_snake(snake_size);
 
     struct coord food_coords = get_random_coord();
     place_food(food_coords);
 
     enum direction direction = DOWN;
-    bool run = true;
-    while (run) {
+    while (1) {
         print_snake(snake);
         refresh();
+
+        if (is_game_over(snake.units[snake.size - 1])) {
+            napms(1500);
+            break;
+        }
+
+        bool eating = snake.units[snake.size - 1].x == food_coords.x &&
+            snake.units[snake.size - 1].y == food_coords.y;
+        if (eating) {
+            grow_snake(&snake, direction);
+            food_coords = get_random_coord();
+            place_food(food_coords);
+        }
+
 
         int input = getch();
         switch (input) {
@@ -42,21 +65,10 @@ int main(void) {
                 direction = RIGHT;
                 break;
         }
-
         del_snake(snake);
-        if (can_move(snake, direction)) {
-            move_snake(&snake, direction);
-            bool eating = snake.units[snake.size - 1].x == food_coords.x &&
-                snake.units[snake.size - 1].y == food_coords.y; 
-            if (eating) {
-                grow_snake(&snake, direction);
-                food_coords = get_random_coord();
-                place_food(food_coords);
-            }
-        } else {
-            run = false;
-        }
-        napms(50);
+        move_snake(&snake, direction);
+
+        napms(100);
     }
 
     endwin();

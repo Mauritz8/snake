@@ -5,36 +5,15 @@
 
 #include "snake.h"
 #include "coordinate.h"
-
-bool can_move(struct snake snake, enum direction direction) {
-    switch (direction) {
-        case UP:
-            if (snake.units[snake.size - 1].y - 1 < 0) {
-                return false;
-            }
-        case DOWN:
-            if (snake.units[snake.size - 1].y + 1 > LINES) {
-                return false;
-            }
-        case LEFT:
-            if (snake.units[snake.size - 1].x - 1 < 0) {
-                return false;
-            }
-        case RIGHT:
-            if (snake.units[snake.size - 1].x + 1 > COLS) {
-                return false;
-            }
-    }
-    return true;
-}
+#include "board.h"
 
 struct snake create_snake(int size) {
     struct snake snake;
     struct coord* units = malloc(sizeof(struct coord) * size);
     for (int i = 0; i < size; i++) {
         struct coord unit;
-        unit.x = COLS / 2;
-        unit.y = i;
+        unit.x = (getbegx(board) + getbegx(board) + getmaxx(board)) / 2;
+        unit.y = getbegy(board) + 1 + i;
         units[i] = unit;
     }
     snake.units = units;
@@ -75,6 +54,27 @@ struct coord new_unit(struct snake* snake, enum direction direction) {
             break;
     }
     return unit;
+}
+
+bool legal_coordinate(struct coord coordinate) {
+    if (coordinate.x <= getbegx(board)) {
+        return false;
+    } else if (coordinate.x >= getbegx(board) + getmaxx(board) - 1) {
+        return false;
+    } else if (coordinate.y <= getbegy(board)) {
+        return false;
+    } else if (coordinate.y >= getbegy(board) + getmaxy(board) - 1) {
+        return false;
+    }
+    return true;
+}
+
+bool is_game_over(struct coord current_coordinate) {
+    if (!legal_coordinate(current_coordinate)) {
+        return true;
+    }
+    // should also check if snake has walked into itself
+    return false;
 }
 
 void move_snake(struct snake* snake, enum direction direction) {

@@ -7,7 +7,8 @@ struct snake {
 };
 
 enum direction{UP, DOWN, LEFT, RIGHT};
-bool can_move(struct snake, enum direction);
+bool legal_coordinate(struct coord);
+bool is_game_over(struct coord current_coordinate);
 
 struct snake create_snake(int size);
 void print_snake(struct snake);
