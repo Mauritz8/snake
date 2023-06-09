@@ -50,7 +50,7 @@ int main(void) {
             grow_snake(&snake, direction);
             food_coords = get_random_coord();
             place_food(food_coords);
-            speed_ms -= 5;
+            speed_ms -= 1;
         }
 
 
@@ -72,7 +72,11 @@ int main(void) {
         del_snake(snake);
         move_snake(&snake, direction);
 
-        napms(speed_ms);
+        if (direction == UP || direction == DOWN) {
+            napms(speed_ms * 2);
+        } else {
+            napms(speed_ms);
+        }
     }
 
     endwin();
