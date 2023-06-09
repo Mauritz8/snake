@@ -31,6 +31,8 @@ int main(void) {
     struct coord food_coords = get_random_coord();
     place_food(food_coords);
 
+    int speed_ms = 100;
+
     enum direction direction = DOWN;
     while (1) {
         print_snake(snake);
@@ -47,6 +49,7 @@ int main(void) {
             grow_snake(&snake, direction);
             food_coords = get_random_coord();
             place_food(food_coords);
+            speed_ms -= 5;
         }
 
 
@@ -68,7 +71,7 @@ int main(void) {
         del_snake(snake);
         move_snake(&snake, direction);
 
-        napms(100);
+        napms(speed_ms);
     }
 
     endwin();
