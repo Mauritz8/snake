@@ -16,5 +16,7 @@ void del_snake(struct snake);
 struct coord new_unit(struct snake*, enum direction);
 void move_snake(struct snake*, enum direction);
 void grow_snake(struct snake*, enum direction);
+bool is_occupied(struct snake*, struct coord pos);
+struct coord get_random_coord(struct snake*);
 
 #endif

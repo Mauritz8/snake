@@ -29,7 +29,7 @@ int main(void) {
     int snake_size = 1;
     struct snake snake = create_snake(snake_size);
 
-    struct coord food_coords = get_random_coord();
+    struct coord food_coords = get_random_coord(&snake);
     place_food(food_coords);
 
     int speed_ms = 100;
@@ -48,7 +48,7 @@ int main(void) {
             snake.units[snake.size - 1].y == food_coords.y;
         if (eating) {
             grow_snake(&snake, direction);
-            food_coords = get_random_coord();
+            food_coords = get_random_coord(&snake);
             place_food(food_coords);
             speed_ms -= 1;
         }

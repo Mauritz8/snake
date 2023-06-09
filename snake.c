@@ -6,6 +6,7 @@
 #include "snake.h"
 #include "coordinate.h"
 #include "board.h"
+#include "utils.h"
 
 struct snake create_snake(int size) {
     struct snake snake;
@@ -110,4 +111,23 @@ void grow_snake(struct snake* snake, enum direction direction) {
     struct coord unit = new_unit(snake, direction);
     snake->units[0] = unit;
     snake->size++;
+}
+
+bool is_occupied(struct snake* snake, struct coord pos) {
+    for (int i = 0; i < snake->size; i++) {
+        if (snake->units[i].x == pos.x && snake->units[i].y == pos.y) {
+            return true;
+        }
+    }
+    return false;
+}
+
+struct coord get_random_coord(struct snake* snake) {
+    struct coord coordinates;
+    do {
+        coordinates.x = get_random_num_in_range(getbegx(board) + 1, getbegx(board) + getmaxx(board) - 2);
+        coordinates.y = get_random_num_in_range(getbegy(board) + 1, getbegy(board) + getmaxy(board) - 2);
+    } while (is_occupied(snake, coordinates));
+
+    return coordinates;
 }
