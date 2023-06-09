@@ -1,5 +1,6 @@
 #include <curses.h>
 #include <ncurses.h>
+#include <stdlib.h>
 
 #include "coordinate.h"
 #include "snake.h"
@@ -34,7 +35,7 @@ int main(void) {
     int speed_ms = 100;
 
     enum direction direction = DOWN;
-    while (1) {
+    while (true) {
         print_snake(snake);
         refresh();
 
@@ -78,5 +79,6 @@ int main(void) {
     printf("YOU LOST\n");
     printf("Score: %d\n", snake.size);
 
+    free(snake.units);
     return 0;
 }
