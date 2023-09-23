@@ -5,7 +5,6 @@
 #include "coordinate.h"
 #include "snake.h"
 #include "food.h"
-#include "board.h"
 
 
 int main(void) {
@@ -20,16 +19,16 @@ int main(void) {
     const int BOARD_WIDTH = 100;
     const int BOARD_STARTY = 10;
     const int BOARD_STARTX = 50;
-    board = newwin(BOARD_HEIGHT, BOARD_WIDTH, BOARD_STARTY, BOARD_STARTX);
+    WINDOW* board = newwin(BOARD_HEIGHT, BOARD_WIDTH, BOARD_STARTY, BOARD_STARTX);
     box(board, 0, 0);
     refresh();
     wrefresh(board);
 
 
     int snake_size = 1;
-    Snake snake = create_snake(snake_size);
+    Snake snake = create_snake(snake_size, board);
 
-    Coord food_coords = get_random_coord(&snake);
+    Coord food_coords = get_random_coord(board, &snake);
     place_food(&food_coords);
 
     int speed_ms = 100;
@@ -39,7 +38,7 @@ int main(void) {
         print_snake(&snake);
         refresh();
 
-        if (is_game_over(&snake)) {
+        if (is_game_over(&snake, board)) {
             napms(1500);
             break;
         }
@@ -48,7 +47,7 @@ int main(void) {
             snake.units[snake.size - 1].y == food_coords.y;
         if (eating) {
             grow_snake(&snake, direction);
-            food_coords = get_random_coord(&snake);
+            food_coords = get_random_coord(board, &snake);
             place_food(&food_coords);
             speed_ms -= 1;
         }

@@ -5,7 +5,6 @@
 
 #include "snake.h"
 #include "coordinate.h"
-#include "board.h"
 #include "utils.h"
 
 
@@ -32,7 +31,7 @@ static Coord new_unit(Snake* snake, Direction direction) {
     return unit;
 }
 
-static bool is_legal_coordinate(const Coord* coordinate) {
+static bool is_legal_coordinate(const Coord* coordinate, const WINDOW* board) {
     if (coordinate->x <= getbegx(board)) {
         return false;
     } else if (coordinate->x >= getbegx(board) + getmaxx(board) - 1) {
@@ -65,7 +64,7 @@ static bool is_occupied(const Snake* snake, const Coord* pos) {
     return false;
 }
 
-Snake create_snake(size_t size) {
+Snake create_snake(size_t size, const WINDOW* board) {
     Snake snake;
     Coord* units = malloc(sizeof(Coord) * size);
     for (int i = 0; i < size; i++) {
@@ -111,7 +110,7 @@ void grow_snake(Snake* snake, Direction direction) {
     snake->size++;
 }
 
-Coord get_random_coord(const Snake* snake) {
+Coord get_random_coord(const WINDOW* board, const Snake* snake) {
     Coord coordinate;
     do {
         coordinate.x = get_random_num_in_range(getbegx(board) + 1, getbegx(board) + getmaxx(board) - 2);
@@ -121,9 +120,9 @@ Coord get_random_coord(const Snake* snake) {
     return coordinate;
 }
 
-bool is_game_over(const Snake* snake) {
+bool is_game_over(const Snake* snake, const WINDOW* board) {
     const Coord head = snake->units[snake->size - 1];
-    if (!is_legal_coordinate(&head)) {
+    if (!is_legal_coordinate(&head, board)) {
         return true;
     }
     if (has_snake_walked_into_itself(snake)) {
