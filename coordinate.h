@@ -1,9 +1,9 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
-struct coord {
+typedef struct {
     int x;
     int y;
-};
+} Coord;
 
 #endif

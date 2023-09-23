@@ -1,22 +1,24 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
-struct snake {
-    struct coord* units;
+#include "coordinate.h"
+
+typedef struct {
+    Coord* units;
     int size;
-};
+} Snake;
 
-enum direction{UP, DOWN, LEFT, RIGHT};
-bool legal_coordinate(struct coord);
-bool is_game_over(struct snake*);
+typedef enum {UP, DOWN, LEFT, RIGHT} Direction;
+bool legal_coordinate(Coord);
+bool is_game_over(Snake*);
 
-struct snake create_snake(int size);
-void print_snake(struct snake);
-void del_snake(struct snake);
-struct coord new_unit(struct snake*, enum direction);
-void move_snake(struct snake*, enum direction);
-void grow_snake(struct snake*, enum direction);
-bool is_occupied(struct snake*, struct coord pos);
-struct coord get_random_coord(struct snake*);
+Snake create_snake(int size);
+void print_snake(Snake);
+void del_snake( Snake);
+Coord new_unit(Snake*, Direction);
+void move_snake(Snake*, Direction);
+void grow_snake(Snake*, Direction);
+bool is_occupied(Snake*, Coord pos);
+Coord get_random_coord(Snake*);
 
 #endif

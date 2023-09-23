@@ -27,14 +27,14 @@ int main(void) {
 
 
     int snake_size = 1;
-    struct snake snake = create_snake(snake_size);
+    Snake snake = create_snake(snake_size);
 
-    struct coord food_coords = get_random_coord(&snake);
+    Coord food_coords = get_random_coord(&snake);
     place_food(food_coords);
 
     int speed_ms = 100;
 
-    enum direction direction = DOWN;
+    Direction direction = DOWN;
     while (true) {
         print_snake(snake);
         refresh();
