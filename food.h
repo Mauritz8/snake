@@ -3,6 +3,6 @@
 
 #include "coordinate.h"
 
-void place_food(Coord);
+void place_food(const Coord* coord);
 
 #endif

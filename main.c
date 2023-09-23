@@ -30,7 +30,7 @@ int main(void) {
     Snake snake = create_snake(snake_size);
 
     Coord food_coords = get_random_coord(&snake);
-    place_food(food_coords);
+    place_food(&food_coords);
 
     int speed_ms = 100;
 
@@ -49,7 +49,7 @@ int main(void) {
         if (eating) {
             grow_snake(&snake, direction);
             food_coords = get_random_coord(&snake);
-            place_food(food_coords);
+            place_food(&food_coords);
             speed_ms -= 1;
         }
 
