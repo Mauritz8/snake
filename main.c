@@ -36,7 +36,7 @@ int main(void) {
 
     Direction direction = DOWN;
     while (true) {
-        print_snake(snake);
+        print_snake(&snake);
         refresh();
 
         if (is_game_over(&snake)) {
@@ -69,7 +69,7 @@ int main(void) {
                 direction = RIGHT;
                 break;
         }
-        del_snake(snake);
+        del_snake(&snake);
         move_snake(&snake, direction);
 
         if (direction == UP || direction == DOWN) {
@@ -81,7 +81,7 @@ int main(void) {
 
     endwin();
     printf("YOU LOST\n");
-    printf("Score: %d\n", snake.size);
+    printf("Score: %zu\n", snake.size);
 
     free(snake.units);
     return 0;

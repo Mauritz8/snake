@@ -2,23 +2,21 @@
 #define SNAKE_H
 
 #include "coordinate.h"
+#include <stddef.h>
 
 typedef struct {
     Coord* units;
-    int size;
+    size_t size;
 } Snake;
 
 typedef enum {UP, DOWN, LEFT, RIGHT} Direction;
-bool legal_coordinate(Coord);
-bool is_game_over(Snake*);
 
-Snake create_snake(int size);
-void print_snake(Snake);
-void del_snake( Snake);
-Coord new_unit(Snake*, Direction);
-void move_snake(Snake*, Direction);
-void grow_snake(Snake*, Direction);
-bool is_occupied(Snake*, Coord pos);
-Coord get_random_coord(Snake*);
+Snake create_snake(size_t size);
+void print_snake(const Snake* snake);
+void del_snake(Snake* snake);
+void move_snake(Snake* snake, Direction direction);
+void grow_snake(Snake* snake, Direction direction);
+Coord get_random_coord(const Snake* snake);
+bool is_game_over(const Snake* snake);
 
 #endif
