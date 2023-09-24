@@ -16,7 +16,7 @@ int main(void) {
     nodelay(stdscr, TRUE);
 
     const int BOARD_HEIGHT = 20;
-    const int BOARD_WIDTH = 100;
+    const int BOARD_WIDTH = 40;
     const int BOARD_STARTY = 10;
     const int BOARD_STARTX = 50;
     WINDOW* board = newwin(BOARD_HEIGHT, BOARD_WIDTH, BOARD_STARTY, BOARD_STARTX);
